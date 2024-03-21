@@ -6,13 +6,20 @@ class UpdateTargetLocation extends Observer {
   latitudeTextInput;
   longitudeTextInput;
   altitudeTextInput;
+  targetLocationSelector;
+  locations = {
+    seoul: { latitude: 37.5665, longitude: 126.978 },
+    newyork: { latitude: 40.7128, longitude: -74.006 },
+    paris: { latitude: 48.8566, longitude: 2.3522 },
+  };
 
   constructor(
     currentLocationModel,
     targetLocationModel,
     latitudeTextInput,
     longitudeTextInput,
-    altitudeTextInput
+    altitudeTextInput,
+    targetLocationSelector
   ) {
     super(() => {
       this.updateTargetLocation();
@@ -22,6 +29,7 @@ class UpdateTargetLocation extends Observer {
     this.latitudeTextInput = latitudeTextInput;
     this.longitudeTextInput = longitudeTextInput;
     this.altitudeTextInput = altitudeTextInput;
+    this.targetLocationSelector = targetLocationSelector;
     this.init();
   }
 
@@ -50,6 +58,28 @@ class UpdateTargetLocation extends Observer {
       );
       this.setAltitudeText(this.targetLocationModel.getAltitudeInMeters());
     });
+
+    this.locations.seoul = { latitude: 37.5665, longitude: 126.978 };
+    this.locations.neyork = { latitude: 40.7128, longitude: -74.006 };
+    this.locations.paris = { latitude: 48.8566, longitude: 2.3522 };
+    this.setupSelectorOptions();
+  }
+
+  setupSelectorOptions() {
+    Object.keys(this.locations).forEach((key) => {
+      this.targetLocationSelector.addOption(key, key);
+    });
+
+    this.targetLocationSelector.setOnChange(() => {
+      const { latitude, longitude } =
+        this.locations[this.targetLocationSelector.getValue()];
+      this.setLatitudeText(latitude);
+      this.targetLocationModel.setLatitudeInDecimalDegrees(latitude);
+      this.setLongitudeText(longitude);
+      this.targetLocationModel.setLongitudeInDecimalDegrees(longitude);
+      this.setAltitudeText(0);
+      this.targetLocationModel.setAltitudeInMeters(0);
+    });
   }
 
   setupInputListener(input, callback) {
@@ -57,24 +87,19 @@ class UpdateTargetLocation extends Observer {
   }
 
   updateTargetLocation() {
-    this.setLatitudeText(
-      this.currentLocationModel.getLatitudeInDecimalDegrees()
-    );
-    this.targetLocationModel.setLatitudeInDecimalDegrees(
-      this.latitudeTextInput.getText()
-    );
+    const currentLatitude =
+      this.currentLocationModel.getLatitudeInDecimalDegrees();
+    this.setLatitudeText(currentLatitude);
+    this.targetLocationModel.setLatitudeInDecimalDegrees(currentLatitude);
 
-    this.setLongitudeText(
-      this.currentLocationModel.getLongitudeInDecimalDegrees()
-    );
-    this.targetLocationModel.setLongitudeInDecimalDegrees(
-      this.longitudeTextInput.getText()
-    );
+    const currentLongitude =
+      this.currentLocationModel.getLongitudeInDecimalDegrees();
+    this.setLongitudeText(currentLongitude);
+    this.targetLocationModel.setLongitudeInDecimalDegrees(currentLongitude);
 
-    this.setAltitudeText(this.currentLocationModel.getAltitudeInMeters());
-    this.targetLocationModel.setAltitudeInMeters(
-      this.altitudeTextInput.getText()
-    );
+    const currentAltitude = this.currentLocationModel.getAltitudeInMeters();
+    this.setAltitudeText(currentAltitude);
+    this.targetLocationModel.setAltitudeInMeters(currentAltitude);
   }
 
   setLatitudeText(latitude) {
