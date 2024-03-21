@@ -1,10 +1,17 @@
-class FindMyLocation {
-  locationModel;
+import { Observer } from "./observer.js";
+
+class FindMyLocation extends Observer {
+  currentLocationModel;
   findMyLocationButton;
   myLocationMessageParagraph;
 
-  constructor(locationModel, findMyLocationButton, myLocationMessageParagraph) {
-    this.locationModel = locationModel;
+  constructor(
+    currentLocationModel,
+    findMyLocationButton,
+    myLocationMessageParagraph
+  ) {
+    super();
+    this.currentLocationModel = currentLocationModel;
     this.findMyLocationButton = findMyLocationButton;
     this.myLocationMessageParagraph = myLocationMessageParagraph;
     this.init();
@@ -20,15 +27,12 @@ class FindMyLocation {
     return `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
   }
 
-  generateMyLocationMessage(timestamp, latitude, longitude, altitude) {
-    const dateString = timestamp
-      ? `[${new Date(timestamp).toUTCString()}]`
-      : "";
-    const latitudeString = latitude ? ` 위도: ${latitude}°` : "";
+  generateMyLocationMessage(latitude, longitude, altitude) {
+    const latitudeString = latitude ? `위도: ${latitude}°` : "";
     const longitudeString = longitude ? `, 경도: ${longitude}°` : "";
     const altitudeString = altitude ? `, 고도: ${altitude}m` : "";
 
-    return `${dateString}${latitudeString}${longitudeString}${altitudeString}`;
+    return `${latitudeString}${longitudeString}${altitudeString}`;
   }
 
   handlePositionSuccess = (position) => {
@@ -43,7 +47,7 @@ class FindMyLocation {
     });
 
     this.updateLocationModel(latitude, longitude, altitude);
-    this.updateMyLocationMessage(latitude, longitude, altitude, timestamp);
+    this.updateMyLocationMessage(latitude, longitude, altitude);
   };
 
   handlePositionError = (positionError) => {
@@ -60,19 +64,18 @@ class FindMyLocation {
   };
 
   updateLocationModel(latitude, longitude, altitude) {
-    this.locationModel.setLatitudeInDecimalDegrees(latitude);
-    this.locationModel.setLongitudeInDecimalDegrees(longitude);
-    this.locationModel.setAltitudeInMeters(altitude);
+    this.currentLocationModel.setLatitudeInDecimalDegrees(latitude);
+    this.currentLocationModel.setLongitudeInDecimalDegrees(longitude);
+    this.currentLocationModel.setAltitudeInMeters(altitude);
   }
 
-  updateMyLocationMessage(latitude, longitude, altitude, timestamp) {
+  updateMyLocationMessage(latitude, longitude, altitude) {
     if (latitude && longitude) {
       const mapLinkUrl = this.generateMapLinkUrl(latitude, longitude);
       this.myLocationMessageParagraph.setHyperReference(mapLinkUrl);
     }
 
     const message = this.generateMyLocationMessage(
-      timestamp,
       latitude,
       longitude,
       altitude

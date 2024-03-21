@@ -1,8 +1,10 @@
-class Location {
+import { Observable } from "./observable.js";
+
+class Location extends Observable {
   location = {
-    latitude: 0.0,
-    longitude: 0.0,
-    altitude: 0.0,
+    latitude,
+    longitude,
+    altitude,
   };
 
   constructor(
@@ -10,6 +12,7 @@ class Location {
     longitudeInDecimalDegrees = 0.0,
     altitudeInMeters = 0.0
   ) {
+    super();
     this.location.latitude = latitudeInDecimalDegrees;
     this.location.longitude = longitudeInDecimalDegrees;
     this.location.altitude = altitudeInMeters;
@@ -17,12 +20,15 @@ class Location {
 
   setLatitudeInDecimalDegrees(latitudeInDecimalDegrees) {
     this.location.latitude = latitudeInDecimalDegrees;
+    this.notifyObservers();
   }
   setLongitudeInDecimalDegrees(longitudeInDecimalDegrees) {
     this.location.longitude = longitudeInDecimalDegrees;
+    this.notifyObservers();
   }
   setAltitudeInMeters(altitudeInMeters) {
     this.location.altitude = altitudeInMeters;
+    this.notifyObservers();
   }
 
   getLatitudeInDecimalDegrees() {

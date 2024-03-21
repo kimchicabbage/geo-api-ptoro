@@ -1,10 +1,12 @@
 import { Paragraph } from "./paragraph.js";
 import { Button } from "./button.js";
+import { TextInput } from "./text-input.js";
 
 class ElementFactory {
   static ElementType = {
     Paragraph,
     Button,
+    TextInput,
   };
 
   static createElement(elementType, id) {
@@ -14,6 +16,10 @@ class ElementFactory {
 
     if (elementType === ElementFactory.ElementType.Button) {
       return new Button(id);
+    }
+
+    if (elementType === ElementFactory.ElementType.TextInput) {
+      return new TextInput(id);
     }
   }
 }

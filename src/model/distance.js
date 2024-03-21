@@ -1,9 +1,16 @@
+import { Observable } from "./observable.js";
 import { Location } from "./location";
 
 const EARTH_RADIUS_IN_METER = 6371000.0;
 
-class Distance {
+class Distance extends Observable {
+  distances = {
+    plane,
+    space,
+    altitude,
+  };
   constructor(location1, location2 = new Location()) {
+    super();
     this.distances = {
       plane: 0.0,
       space: 0.0,
