@@ -64,9 +64,9 @@ class FindMyLocation extends Observer {
   };
 
   updateLocationModel(latitude, longitude, altitude) {
-    this.currentLocationModel.setLatitudeInDecimalDegrees(latitude);
-    this.currentLocationModel.setLongitudeInDecimalDegrees(longitude);
-    this.currentLocationModel.setAltitudeInMeters(altitude);
+    this.currentLocationModel.setLatitudeInDecimalDegrees(latitude ?? 0);
+    this.currentLocationModel.setLongitudeInDecimalDegrees(longitude ?? 0);
+    this.currentLocationModel.setAltitudeInMeters(altitude ?? 0);
   }
 
   updateMyLocationMessage(latitude, longitude, altitude) {
