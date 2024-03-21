@@ -21,6 +21,10 @@ const initializeComponents = () => {
     myLocationMessageParagraph
   );
 
+  const targetLocationSelector = ElementFactory.createElement(
+    ElementFactory.ElementType.Select,
+    "location-selector"
+  );
   const latitudeTextInput = ElementFactory.createElement(
     ElementFactory.ElementType.TextInput,
     "latitude"
@@ -39,7 +43,8 @@ const initializeComponents = () => {
     targetLocationModel,
     latitudeTextInput,
     longitudeTextInput,
-    altitudeTextInput
+    altitudeTextInput,
+    targetLocationSelector,
   );
   currentLocationModel.addObserver(updateTargetDistanceContoller);
 
