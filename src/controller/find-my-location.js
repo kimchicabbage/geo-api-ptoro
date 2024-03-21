@@ -39,13 +39,6 @@ class FindMyLocation extends Observer {
     const { latitude, longitude, altitude } = position.coords;
     const timestamp = position.timestamp;
 
-    console.debug({
-      latitude,
-      longitude,
-      altitude,
-      timestamp,
-    });
-
     this.updateLocationModel(latitude, longitude, altitude);
     this.updateMyLocationMessage(latitude, longitude, altitude);
   };

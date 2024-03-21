@@ -12,6 +12,10 @@ class TextInput extends Element {
   getText() {
     return this.reference.value;
   }
+
+  setOnChange(onChange) {
+    this.reference.addEventListener("change", onChange);
+  }
 }
 
 export { TextInput };

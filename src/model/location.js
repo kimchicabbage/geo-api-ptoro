@@ -19,14 +19,28 @@ class Location extends Observable {
   }
 
   setLatitudeInDecimalDegrees(latitudeInDecimalDegrees) {
-    this.location.latitude = latitudeInDecimalDegrees;
+    const latitude = Number(latitudeInDecimalDegrees);
+    if (Number.isNaN(latitude)) {
+      return;
+    }
+    this.location.latitude = latitude;
     this.notifyObservers();
   }
+
   setLongitudeInDecimalDegrees(longitudeInDecimalDegrees) {
-    this.location.longitude = longitudeInDecimalDegrees;
+    const longitude = Number(longitudeInDecimalDegrees);
+    if (Number.isNaN(longitude)) {
+      return;
+    }
+    this.location.longitude = longitude;
     this.notifyObservers();
   }
+
   setAltitudeInMeters(altitudeInMeters) {
+    const altitude = Number(altitudeInMeters);
+    if (Number.isNaN(altitude)) {
+      return;
+    }
     this.location.altitude = altitudeInMeters;
     this.notifyObservers();
   }
